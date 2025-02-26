@@ -3,8 +3,10 @@ import time
 import pytest
 from playwright.sync_api import Playwright, expect
 
+import utils.secret_config
 
-@pytest.fixture(scope="function")
+
+@pytest.fixture(scope="session")
 def set_up(browser):
     context = browser.new_context()
     page = context.new_page()
@@ -13,7 +15,7 @@ def set_up(browser):
     yield page
     page.close()
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def login_setup(set_up):
     page = set_up
     page.wait_for_load_state("networkidle")
@@ -25,7 +27,7 @@ def login_setup(set_up):
     # page.get_by_test_id("emailAuth").get_by_label("Email").fill("symon.storozhenko@gmail.com")
     page.fill('input:below(:text("Email"))', 'symon.storozhenko@gmail.com')
     page.get_by_test_id("emailAuth").get_by_label("Email").press("Tab")
-    page.get_by_label("Password").fill("test123", timeout=2000)
+    page.get_by_label("Password").fill(utils.secret_config.PASSWORD, timeout=2000)
     page.get_by_label("Password").press("Enter")
     page.wait_for_load_state("networkidle")
     expect(page.get_by_role("button", name="Log In"))
