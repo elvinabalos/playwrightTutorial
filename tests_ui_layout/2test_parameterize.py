@@ -1,9 +1,6 @@
 # import time
 import time
-from asyncio import timeout
-
 import pytest
-from playwright.sync_api import Playwright, expect
 
 @pytest.mark.parametrize("email", ["symon.storozhenko@gmail.com",
                                              pytest.param("fakeemail", marks=pytest.mark.xfail),
