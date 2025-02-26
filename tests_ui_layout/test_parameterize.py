@@ -1,4 +1,3 @@
-# import time
 import time
 from asyncio import timeout
 
